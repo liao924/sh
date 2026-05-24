@@ -635,7 +635,7 @@ while true; do
 			done
 			;;
 		2)
-			send_stats "更新鏡像"
+			send_stats "更新镜像"
 			read -e -p "請輸入鏡像名稱（多個鏡像名稱請以空格分隔）:" imagenames
 			for name in $imagenames; do
 				echo -e "${gl_kjlan}正在更新鏡像:$name${gl_bai}"
@@ -1316,7 +1316,7 @@ install_ldnmp_conf() {
   wget -O /home/web/docker-compose.yml ${gh_proxy}raw.githubusercontent.com/kejilion/docker/main/LNMP-docker-compose-10.yml
   dbrootpasswd=$(openssl rand -base64 16) ; dbuse=$(openssl rand -hex 4) ; dbusepasswd=$(openssl rand -base64 8)
 
-  # 在 docker-compose.yml 檔案中進行替換
+  # 在 docker-compose.yml 文件中进行替换
   sed -i "s#webroot#$dbrootpasswd#g" /home/web/docker-compose.yml
   sed -i "s#kejilionYYDS#$dbusepasswd#g" /home/web/docker-compose.yml
   sed -i "s#kejilion#$dbuse#g" /home/web/docker-compose.yml
@@ -1816,7 +1816,7 @@ nginx_waf() {
 		wget -O /home/web/nginx.conf "${gh_proxy}raw.githubusercontent.com/kejilion/nginx/main/nginx10.conf"
 	fi
 
-	# 根據 mode 參數決定開啟或關閉 WAF
+	# 根据 mode 参数来决定开启或关闭 WAF
 	if [ "$mode" == "on" ]; then
 		# 開啟 WAF：去掉註釋
 		sed -i 's|# load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;|load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
@@ -2332,7 +2332,7 @@ check_nginx_compression() {
 
 	# 檢查 gzip 是否開啟且未被註釋
 	if grep -qE '^\s*gzip\s+on;' "$CONFIG_FILE"; then
-		gzip_status="gzip壓縮已開啟"
+		gzip_status=" gzip压缩已开启"
 	else
 		gzip_status=""
 	fi
@@ -2538,7 +2538,7 @@ check_docker_image_update() {
 	local container_name=$1
 	update_status=""
 
-	# 1. 區域檢查
+	# 1. 区域检查
 	local country=$(curl -s --max-time 2 ipinfo.io/country)
 	[[ "$country" == "CN" ]] && return
 
@@ -2604,7 +2604,7 @@ block_container_port() {
 	install iptables
 
 
-	# 檢查並封鎖其他所有 IP
+	# 检查并封禁其他所有 IP
 	if ! iptables -C DOCKER-USER -p tcp -d "$container_ip" -j DROP &>/dev/null; then
 		iptables -I DOCKER-USER -p tcp -d "$container_ip" -j DROP
 	fi
@@ -2793,7 +2793,7 @@ clear_host_port_rules() {
 		iptables -D INPUT -p tcp --dport "$port" -s 127.0.0.0/8 -j ACCEPT
 	fi
 
-	# 清除允許指定 IP 存取的規則
+	# 清除允许指定 IP 访问的规则
 	if iptables -C INPUT -p tcp --dport "$port" -s "$allowed_ip" -j ACCEPT &>/dev/null; then
 		iptables -D INPUT -p tcp --dport "$port" -s "$allowed_ip" -j ACCEPT
 	fi
@@ -3147,12 +3147,12 @@ tmux_run_d() {
 local base_name="tmuxd"
 local tmuxd_ID=1
 
-# 检查会话是否存在的函数
+# 檢查會話是否存在的函數
 session_exists() {
   tmux has-session -t $1 2>/dev/null
 }
 
-# 循环直到找到一个不存在的会话名称
+# 循環直到找到一個不存在的會話名稱
 while session_exists "$base_name-$tmuxd_ID"; do
   local tmuxd_ID=$((tmuxd_ID + 1))
 done
@@ -3725,13 +3725,13 @@ ldnmp_Proxy_backend_stream() {
 	echo "開始部署$webname"
 
 	# 取得代理名稱
-	read -erp "請輸入代理轉發名稱 (如 mysql_proxy):" proxy_name
+	read -erp "请输入代理转发名称 (如 mysql_proxy): " proxy_name
 	if [ -z "$proxy_name" ]; then
-		echo "名稱不能為空"; return 1
+		echo "名称不能为空"; return 1
 	fi
 
-	# 取得監聽埠
-	read -erp "請輸入本機監聽埠 (如 3306):" listen_port
+	# 获取监听端口
+	read -erp "请输入本机监听端口 (如 3306): " listen_port
 	if ! [[ "$listen_port" =~ ^[0-9]+$ ]]; then
 		echo "連接埠必須是數字"; return 1
 	fi
@@ -4288,7 +4288,7 @@ generate_access_urls() {
 	if [ "$has_valid_ports" = true ]; then
 		echo "FRP服務對外存取位址:"
 
-		# 處理 IPv4 位址
+		# 处理 IPv4 地址
 		for port in "${ports[@]}"; do
 			if [[ $port != "8055" && $port != "8056" ]]; then
 				echo "http://${ipv4_address}:${port}"
@@ -4829,7 +4829,7 @@ while true; do
 	echo "1. 國外DNS優化:"
 	echo " v4: 1.1.1.1 8.8.8.8"
 	echo " v6: 2606:4700:4700::1111 2001:4860:4860::8888"
-	echo "2. 國內DNS優化:"
+	echo "2. 国内DNS优化: "
 	echo " v4: 223.5.5.5 183.60.83.19"
 	echo " v6: 2400:3200::1 2400:da00::6666"
 	echo "3. 手動編輯DNS配置"
@@ -5037,7 +5037,7 @@ fetch_remote_ssh_keys() {
 		return 1
 	fi
 
-	# 檢查內容是否有效
+	# 检查内容是否有效
 	if [[ ! -s "${temp_file}" ]]; then
 		echo "錯誤：下載到的檔案為空，URL 可能不包含任何公鑰" >&2
 		rm -f "${temp_file}"
@@ -5885,10 +5885,10 @@ clamav() {
 		  while true; do
 				clear
 				echo "clamav病毒掃描工具"
-				echo "视频介绍: https://www.bilibili.com/video/BV1TqvZe4EQm?t=0.1"
+				echo "影片介紹: https://www.bilibili.com/video/BV1TqvZe4EQm?t=0.1"
 				echo "------------------------"
-				echo "是一个开源的防病毒软件工具，主要用于检测和删除各种类型的恶意软件。"
-				echo "包括病毒、特洛伊木马、间谍软件、恶意脚本和其他有害软件。"
+				echo "是一個開源的防毒軟體工具，主要用於偵測和刪除各種類型的惡意軟體。"
+				echo "包括病毒、木馬、間諜軟體、惡意腳本和其他有害軟體。"
 				echo "------------------------"
 				echo -e "${gl_lv}1. 全盤掃描${gl_bai}             ${gl_huang}2. 重要目錄掃描${gl_bai}            ${gl_kjlan}3. 自訂目錄掃描${gl_bai}"
 				echo "------------------------"
@@ -5936,7 +5936,7 @@ clamav() {
 # 取代原 optimize_high_performance / optimize_balanced / optimize_web_server / restore_defaults
 # ============================================================================
 
-# 取得記憶體大小（MB）
+# 获取内存大小（MB）
 _get_mem_mb() {
 	awk '/MemTotal/{printf "%d", $2/1024}' /proc/meminfo
 }
@@ -6104,7 +6104,7 @@ net.ipv4.tcp_slow_start_after_idle = 0"
 	cat > "$CONF" << SYSCTL
 # kejilion 核心調優配置
 # 模式: $mode_name | 場景: $scene
-# 記憶體: ${MEM_MB}MB | 產生時間: $(date '+%Y-%m-%d %H:%M:%S')
+# 内存: ${MEM_MB}MB | 生成时间: $(date '+%Y-%m-%d %H:%M:%S')
 
 # ── TCP 擁塞控制 ──
 net.core.default_qdisc = $QDISC
@@ -6156,7 +6156,7 @@ vm.vfs_cache_pressure = $VFS_PRESSURE
 kernel.sched_autogroup_enabled = $SCHED_AUTOGROUP
 $([ -f /proc/sys/kernel/numa_balancing ] && echo "kernel.numa_balancing = $NUMA" || echo "# numa_balancing 不支持")
 
-# ── 安全防护 ──
+# ── 安全防護 ──
 net.ipv4.conf.all.rp_filter = 1
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.icmp_echo_ignore_broadcasts = 1
@@ -6226,10 +6226,10 @@ LIMITS
 	fi
 
 	echo -e "${gl_lv}${mode_name}優化完成！配置已持久化到${CONF}${gl_bai}"
-	echo -e "${gl_lv}記憶體:${MEM_MB}MB | 壅塞演算法:${CC}| 隊列:${QDISC}${gl_bai}"
+	echo -e "${gl_lv}記憶體:${MEM_MB}MB | 拥塞算法: ${CC}| 隊列:${QDISC}${gl_bai}"
 }
 
-# ── 各模式入口函數（保持原有呼叫介面不變） ──
+# ── 各模式入口函数（保持原有调用接口不变） ──
 
 optimize_high_performance() {
 	_kernel_optimize_core "${tiaoyou_moshi:-高性能优化模式}" "high"
@@ -7410,7 +7410,7 @@ linux_info() {
 
 
 	clear
-	echo -e "${gl_kjlan}正在查詢系統資訊…${gl_bai}"
+	echo -e "${gl_kjlan}正在查询系统信息……${gl_bai}"
 	send_stats "系統資訊查詢"
 
 	ip_address
@@ -7635,7 +7635,7 @@ linux_tools() {
 			  install iftop
 			  clear
 			  iftop
-			  send_stats "安裝iftop"
+			  send_stats "安装iftop"
 			  ;;
 			7)
 			  clear
@@ -7643,7 +7643,7 @@ linux_tools() {
 			  clear
 			  echo "工具已安裝，使用方法如下："
 			  unzip
-			  send_stats "安裝unzip"
+			  send_stats "安装unzip"
 			  ;;
 			8)
 			  clear
@@ -7651,7 +7651,7 @@ linux_tools() {
 			  clear
 			  echo "工具已安裝，使用方法如下："
 			  tar --help
-			  send_stats "安裝tar"
+			  send_stats "安装tar"
 			  ;;
 			9)
 			  clear
@@ -8116,7 +8116,7 @@ docker_ssh_migration() {
 
 		# 還原 /home/docker 下的文件
 		if [ -f "$BACKUP_DIR/home_docker_files.tar.gz" ]; then
-			echo -e "${gl_kjlan}正在還原 /home/docker 下的檔案...${gl_bai}"
+			echo -e "${gl_kjlan}正在还原 /home/docker 下的文件...${gl_bai}"
 			mkdir -p /home/docker
 			tar -xzf "$BACKUP_DIR/home_docker_files.tar.gz" -C /
 			echo -e "${gl_lv}/home/docker 下的檔案已還原完成${gl_bai}"
@@ -9339,7 +9339,7 @@ linux_ldnmp() {
 			  echo
 			  ;;
 		  2)
-			  echo "資料庫備份必須是.gz結尾的壓縮包。请放到/home/目录下，支持宝塔/1panel备份数据导入。"
+			  echo "資料庫備份必須是.gz結尾的壓縮包。請放到/home/目錄下，支援寶塔/1panel備份資料導入。"
 			  read -e -p "也可以輸入下載鏈接，遠端下載備份數據，直接回車將跳過遠端下載：" url_download_db
 
 			  cd /home/
@@ -9950,7 +9950,7 @@ moltbot_menu() {
 		echo -e "ClawdBot > MoltBot > OpenClaw 管理"
 		echo -e "$install_status $running_status $update_message"
 		echo "======================================="
-		echo "1. 安裝"
+		echo "1.  安装"
 		echo "2. 啟動"
 		echo "3. 停止"
 		echo "--------------------"
@@ -10214,9 +10214,9 @@ EOF
 			fi
 		fi
 
-		# 5. 選擇預設模型
+		# 5. 选择默认模型
 		echo
-		read -erp "請輸入預設 Model ID (或序號，留空則使用第一個):" input_model
+		read -erp "请输入默认 Model ID (或序号，留空则使用第一个): " input_model
 
 		if [[ -z "$input_model" && -n "$available_models" ]]; then
 			default_model=$(echo "$available_models" | head -1)
@@ -10307,12 +10307,12 @@ EOF
 			echo "========================================"
 			echo "外掛程式管理 (安裝)"
 			echo "========================================"
-			echo "当前插件列表:"
+			echo "當前插件列表:"
 			openclaw plugins list
 			echo "--------------------------------------------------------"
-			echo "推荐的常用插件 ID (直接复制括号内的 ID 即可):"
+			echo "推薦的常用外掛 ID (直接複製括號內的 ID 即可):"
 			echo "--------------------------------------------------------"
-			echo "📱 通讯渠道:"
+			echo "📱 通訊頻道:"
 			echo "- [feishu] # 飛書/Lark 集成"
 			echo "- [telegram] # Telegram 機器人"
 			echo "- [slack] # Slack 企業通訊"
@@ -10340,7 +10340,7 @@ EOF
 			local plugin_id=$(echo "$raw_input" | sed 's|^@openclaw/||')
 			local plugin_full="$raw_input"
 
-			echo "🔍 正在检查插件状态..."
+			echo "🔍 正在檢查插件狀態..."
 			# 取得目前插件清單用於狀態檢測
 			local plugin_list=$(openclaw plugins list 2>/dev/null)
 
@@ -10411,7 +10411,7 @@ EOF
 			echo "apple-reminders # macOS 提醒事項管理 (待辦事項清單)"
 			echo "1password # 自動化讀取和注入 1Password 金鑰"
 			echo "gog # Google Workspace (Gmail/雲端盤/文件) 全能助手"
-			echo "things-mac # 深度整合 Things 3 任務管理"
+			echo "things-mac         # 深度整合 Things 3 任务管理"
 			echo "bluebubbles # 透過 BlueBubbles 完美收發 iMessage"
 			echo "himalaya # 終端郵件管理 (IMAP/SMTP 強力工具)"
 			echo "summarize # 網頁/播客/YouTube 影片內容一鍵總結"
@@ -10440,7 +10440,7 @@ EOF
 			# 3. 檢查技能是否已安裝
 			local skill_found=false
 			if [ -d "${HOME}/.openclaw/workspace/skills/${skill_name}" ]; then
-				echo "💡 技能 [$skill_name] 已在用户目录安装。"
+				echo "💡 技能 [$skill_name] 已在使用者目錄安裝。"
 				skill_found=true
 			elif [ -d "/usr/lib/node_modules/openclaw/skills/${skill_name}" ]; then
 				echo "💡 技能 [$skill_name] 已在系統目錄安裝。"
@@ -11950,7 +11950,7 @@ while true; do
 
 		}
 
-		local docker_describe="Sun-Panel伺服器、NAS導覽面板、Homepage、瀏覽器首頁"
+		local docker_describe="Sun-Panel服务器、NAS导航面板、Homepage、浏览器首页"
 		local docker_url="官網介紹: https://doc.sun-panel.top/zh_cn/"
 		local docker_use="echo \"帳號: admin@sun.cc 密碼: 12345678\""
 		local docker_passwd=""
@@ -14008,7 +14008,7 @@ while true; do
 		local app_id="99"
 
 		local app_name="dsm群暉虛擬機"
-		local app_text="Docker容器中的虛擬DSM"
+		local app_text="Docker容器中的虚拟DSM"
 		local app_url="官網:${gh_https_url}github.com/vdsm/virtual-dsm"
 		local docker_name="dsm"
 		local docker_port="8099"
@@ -14092,7 +14092,7 @@ while true; do
 	  101|moneyprinterturbo)
 		local app_id="101"
 		local app_name="AI影片產生工具"
-		local app_text="MoneyPrinterTurbo是一款使用AI大模型合成高清短影片的工具"
+		local app_text="MoneyPrinterTurbo是一款使用AI大模型合成高清短视频的工具"
 		local app_url="官方網站:${gh_https_url}github.com/harry0703/MoneyPrinterTurbo"
 		local docker_name="moneyprinterturbo"
 		local docker_port="8101"
@@ -14931,13 +14931,13 @@ net_menu() {
 		show_nics
 		echo
 		echo "=========== 網路卡管理選單 ==========="
-		echo "1. 啟用網卡"
+		echo "1. 启用网卡"
 		echo "2. 停用網路卡"
-		echo "3. 查看网卡详细信息"
+		echo "3. 查看網卡詳細信息"
 		echo "4. 刷新網卡資訊"
 		echo "0. 返回上一級選單"
 		echo "===================================="
-		read -erp "请选择操作: " choice
+		read -erp "請選擇操作:" choice
 
 		case $choice in
 			1)

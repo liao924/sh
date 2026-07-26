@@ -3884,7 +3884,7 @@ ldnmp_web_status() {
 			2)
 				send_stats "克隆站點域名"
 				read -e -p "請輸入舊網域名稱:" oddyuming
-				read -e -p "請輸入新網域名稱:" yuming
+				read -e -p "請輸入新網域:" yuming
 				install_certbot
 				install_ssltls
 				certs_status
@@ -3925,7 +3925,7 @@ ldnmp_web_status() {
 				send_stats "建立關聯站點"
 				echo -e "為現有的站點再關聯一個新網域用於訪問"
 				read -e -p "請輸入現有的網域名稱:" oddyuming
-				read -e -p "請輸入新網域名稱:" yuming
+				read -e -p "請輸入新網域:" yuming
 				install_certbot
 				install_ssltls
 				certs_status
@@ -7005,7 +7005,7 @@ unmount_partition() {
 		echo "分割區卸載成功:$MOUNT_POINT"
 		rmdir "$MOUNT_POINT"
 	else
-		echo "分区卸载失败！"
+		echo "分區卸載失敗！"
 	fi
 }
 
@@ -8035,7 +8035,7 @@ docker_ssh_migration() {
 				# 檢查該 compose 項目的容器是否已在運作
 				running_count=$(docker ps --filter "label=com.docker.compose.project=$project_name" --format '{{.Names}}' | wc -l)
 				if [[ "$running_count" -gt 0 ]]; then
-					echo -e "${gl_huang}Compose 項目 [$project_name] 已有容器在運行，跳過還原...${gl_bai}"
+					echo -e "${gl_huang}Compose 項目 [$project_name] 已有容器在运行，跳过还原...${gl_bai}"
 					continue
 				fi
 
@@ -10328,7 +10328,7 @@ EOF
 			echo "⚙️ 功能擴充:"
 			echo "- [lobster] # 審批流 (附人工確認)"
 			echo "- [voice-call] # 語音通話能力"
-			echo "- [nostr] # 加密隱私聊天"
+			echo "  - [nostr]        	# 加密隐私聊天"
 			echo "--------------------------------------------------------"
 
 			read -e -p "請輸入外掛 ID（輸入 0 退出）：" raw_input
@@ -10437,7 +10437,7 @@ EOF
 				continue
 			fi
 
-			# 3. 檢查技能是否已安裝
+			# 3. 检查技能是否已安装
 			local skill_found=false
 			if [ -d "${HOME}/.openclaw/workspace/skills/${skill_name}" ]; then
 				echo "💡 技能 [$skill_name] 已在使用者目錄安裝。"
@@ -10596,7 +10596,7 @@ EOF
 
 		domains=$(openclaw_find_webui_domain)
 		if [ -n "$domains" ]; then
-			echo "網域地址："
+			echo "網域名稱地址："
 			echo "$domains" | while read d; do
 				echo "https://${d}/#token=${token}"
 			done
@@ -12262,7 +12262,7 @@ while true; do
 			ip_address
 			echo "已經安裝完成"
 			check_docker_app_ip
-			echo "初始使用者名稱密碼均為: admin"
+			echo "初始使用者名稱密碼皆為: admin"
 		}
 
 		docker_app_update() {
@@ -15475,7 +15475,7 @@ EOF
 						send_stats "SSH連接埠已修改"
 						new_ssh_port $new_port
 					elif [[ $new_port -eq 0 ]]; then
-						send_stats "退出SSH埠修改"
+						send_stats "退出SSH連接埠修改"
 						break
 					else
 						echo "連接埠號碼無效，請輸入1到65535之間的數字。"
@@ -16102,7 +16102,7 @@ EOF
 			  echo "TG-bot監控預警功能"
 			  echo "影片介紹: https://youtu.be/vLL-eb3Z_TY"
 			  echo "------------------------------------------------"
-			  echo "您需要設定tg機器人API和接收預警的用戶ID，即可實現本機CPU，內存，硬碟，流量，SSH登入的即時監控預警"
+			  echo "您需要設定tg機器人API和接收預警的使用者ID，即可實現本機CPU，內存，硬碟，流量，SSH登入的即時監控預警"
 			  echo "到達閾值後會向用戶發送預警訊息"
 			  echo -e "${gl_hui}-關於流量，重啟伺服器將重新計算-${gl_bai}"
 			  read -e -p "確定繼續嗎？ (Y/N):" choice
@@ -16530,7 +16530,7 @@ linux_file() {
 				send_stats "壓縮檔案/目錄"
 				;;
 			22) # 解压文件/目录
-				read -e -p "請輸入要解壓縮的檔案名稱 (.tar.gz):" filename
+				read -e -p "請輸入要解壓縮的檔名 (.tar.gz):" filename
 				install tar
 				tar -xzvf "$filename" && echo "已解壓縮$filename" || echo "解壓縮失敗"
 				send_stats "解壓縮檔案/目錄"
@@ -16739,15 +16739,15 @@ while true; do
 		  4)
 			  clear
 			  send_stats "備份叢集"
-			  echo -e "请将 ${gl_huang}/root/cluster/servers.py${gl_bai}檔案下載，完成備份！"
+			  echo -e "請將${gl_huang}/root/cluster/servers.py${gl_bai}檔案下載，完成備份！"
 			  break_end
 			  ;;
 
 		  5)
 			  clear
-			  send_stats "还原集群"
+			  send_stats "還原叢集"
 			  echo "請上傳您的servers.py，按任意鍵開始上傳！"
-			  echo -e "請上傳您的${gl_huang}servers.py${gl_bai}文件到${gl_huang}/root/cluster/${gl_bai} 完成还原！"
+			  echo -e "請上傳您的${gl_huang}servers.py${gl_bai}文件到${gl_huang}/root/cluster/${gl_bai}完成還原！"
 			  break_end
 			  ;;
 
@@ -16778,7 +16778,7 @@ while true; do
 			  ;;
 
 		  51)
-			  send_stats "自定义执行命令"
+			  send_stats "自訂執行命令"
 			  read -e -p "請輸入批次執行的命令:" mingling
 			  run_commands_on_servers "${mingling}"
 			  ;;
@@ -16798,11 +16798,11 @@ kejilion_Affiliates() {
 
 clear
 send_stats "廣告專欄"
-echo "广告专栏"
+echo "廣告專欄"
 echo "------------------------"
-echo "将为用户提供更简单优雅的推广与购买体验！"
+echo "將為用戶提供更簡單優雅的推廣與購買體驗！"
 echo ""
-echo -e "服务器优惠"
+echo -e "伺服器優惠"
 echo "------------------------"
 echo -e "${gl_lan}萊卡雲 香港CN2 GIA 韓國雙ISP 美國CN2 GIA 優惠活動${gl_bai}"
 echo -e "${gl_bai}網址: https://www.lcayun.com/aff/ZEXUQBIM${gl_bai}"
@@ -16811,34 +16811,34 @@ echo -e "${gl_lan}RackNerd 10.99刀每年 美國 1核心 1G記憶體 20G硬碟 1
 echo -e "${gl_bai}網址: https://my.racknerd.com/aff.php?aff=5501&pid=879${gl_bai}"
 echo "------------------------"
 echo -e "${gl_zi}Hostinger 52.7刀每年 美國 1核心 4G記憶體 50G硬碟 4T流量每月${gl_bai}"
-echo -e "${gl_bai}网址: https://cart.hostinger.com/pay/d83c51e9-0c28-47a6-8414-b8ab010ef94f?_ga=GA1.3.942352702.1711283207${gl_bai}"
+echo -e "${gl_bai}網址: https://cart.hostinger.com/pay/d83c51e9-0c28-47a6-8414-b8ab010ef94f?_ga=GA1.3.942352702.1711283207${gl_bai}"
 echo "------------------------"
 echo -e "${gl_huang}搬運工 49刀每季 美國CN2GIA 日本軟銀 2核心 1G內存 20G硬碟 1T流量每月${gl_bai}"
 echo -e "${gl_bai}網址: https://bandwagonhost.com/aff.php?aff=69004&pid=87${gl_bai}"
 echo "------------------------"
-echo -e "${gl_lan}DMIT 28刀每季 美国CN2GIA 1核心 2G内存 20G硬盘 800G流量每月${gl_bai}"
-echo -e "${gl_bai}网址: https://www.dmit.io/aff.php?aff=4966&pid=100${gl_bai}"
+echo -e "${gl_lan}DMIT 28刀每季 美國CN2GIA 1核心 2G記憶體 20G硬碟 800G流量每月${gl_bai}"
+echo -e "${gl_bai}網址: https://www.dmit.io/aff.php?aff=4966&pid=100${gl_bai}"
 echo "------------------------"
 echo -e "${gl_zi}V.PS 6.9刀每月 東京軟銀 2核心 1G內存 20G硬碟 1T流量每月${gl_bai}"
 echo -e "${gl_bai}網址: https://vps.hosting/cart/tokyo-cloud-kvm-vps/?id=148&?affid=1355&?affid=1355${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}VPS更多热门优惠${gl_bai}"
+echo -e "${gl_kjlan}VPS更多熱門優惠${gl_bai}"
 echo -e "${gl_bai}網址: https://kejilion.pro/topvps/${gl_bai}"
 echo "------------------------"
 echo ""
 echo -e "網域優惠"
 echo "------------------------"
 echo -e "${gl_lan}GNAME 8.8刀首年COM域名 6.68刀首年CC域名${gl_bai}"
-echo -e "${gl_bai}网址: https://www.gname.com/register?tt=86836&ttcode=KEJILION86836&ttbj=sh${gl_bai}"
+echo -e "${gl_bai}網址: https://www.gname.com/register?tt=86836&ttcode=KEJILION86836&ttbj=sh${gl_bai}"
 echo "------------------------"
 echo ""
-echo -e "科技lion周边"
+echo -e "科技lion週邊"
 echo "------------------------"
-echo -e "${gl_kjlan}B站: ${gl_bai}https://b23.tv/2mqnQyh              ${gl_kjlan}油管: ${gl_bai}https://www.youtube.com/@kejilion${gl_bai}"
-echo -e "${gl_kjlan}官网: ${gl_bai}https://kejilion.pro/              ${gl_kjlan}导航: ${gl_bai}https://dh.kejilion.pro/${gl_bai}"
-echo -e "${gl_kjlan}博客: ${gl_bai}https://blog.kejilion.pro/         ${gl_kjlan}软件中心: ${gl_bai}https://app.kejilion.pro/${gl_bai}"
+echo -e "${gl_kjlan}B站:${gl_bai}https://b23.tv/2mqnQyh              ${gl_kjlan}油管:${gl_bai}https://www.youtube.com/@kejilion${gl_bai}"
+echo -e "${gl_kjlan}官網:${gl_bai}https://kejilion.pro/              ${gl_kjlan}導航:${gl_bai}https://dh.kejilion.pro/${gl_bai}"
+echo -e "${gl_kjlan}部落格:${gl_bai}https://blog.kejilion.pro/         ${gl_kjlan}軟體中心:${gl_bai}https://app.kejilion.pro/${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}脚本官网: ${gl_bai}https://kejilion.sh            ${gl_kjlan}GitHub地址: ${gl_bai}${gh_https_url}github.com/kejilion/sh${gl_bai}"
+echo -e "${gl_kjlan}腳本官網:${gl_bai}https://kejilion.sh            ${gl_kjlan}GitHub地址:${gl_bai}${gh_https_url}github.com/kejilion/sh${gl_bai}"
 echo "------------------------"
 echo ""
 }
@@ -16850,12 +16850,12 @@ games_server_tools() {
 
 	while true; do
 	  clear
-	  echo -e "游戏开服脚本合集"
+	  echo -e "遊戲開服腳本合集"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}1. ${gl_bai}幻獸帕魯開服腳本"
-	  echo -e "${gl_kjlan}2. ${gl_bai}我的世界开服脚本"
+	  echo -e "${gl_kjlan}2. ${gl_bai}我的世界開服腳本"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0. ${gl_bai}返回主菜单"
+	  echo -e "${gl_kjlan}0. ${gl_bai}返回主選單"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  read -e -p "請輸入你的選擇:" sub_choice
 
@@ -16865,7 +16865,7 @@ games_server_tools() {
 			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/palworld.sh ; chmod +x palworld.sh ; ./palworld.sh
 			 exit
 			 ;;
-		  2) send_stats "我的世界开服脚本" ; cd ~
+		  2) send_stats "我的世界開服腳本" ; cd ~
 			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/mc.sh ; chmod +x mc.sh ; ./mc.sh
 			 exit
 			 ;;
@@ -16875,7 +16875,7 @@ games_server_tools() {
 			;;
 
 		  *)
-			echo "无效的输入!"
+			echo "無效的輸入!"
 			;;
 	  esac
 	  break_end
@@ -16920,11 +16920,11 @@ while true; do
 	local sh_v_new=$(curl -s ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 
 	if [ "$sh_v" = "$sh_v_new" ]; then
-		echo -e "${gl_lv}你已经是最新版本！${gl_huang}v$sh_v${gl_bai}"
-		send_stats "脚本已经最新了，无需更新"
+		echo -e "${gl_lv}你已經是最新版本！${gl_huang}v$sh_v${gl_bai}"
+		send_stats "腳本已經最新了，無需更新"
 	else
 		echo "發現新版本！"
-		echo -e "当前版本 v$sh_v        最新版本 ${gl_huang}v$sh_v_new${gl_bai}"
+		echo -e "目前版本 v$sh_v最新版本${gl_huang}v$sh_v_new${gl_bai}"
 	fi
 
 
@@ -16933,15 +16933,15 @@ while true; do
 
 	if [ -n "$existing_cron" ]; then
 		echo "------------------------"
-		echo -e "${gl_lv}自动更新已开启，每天凌晨2点脚本会自动更新！${gl_bai}"
+		echo -e "${gl_lv}自動更新已開啟，每天凌晨2點腳本會自動更新！${gl_bai}"
 	fi
 
 	echo "------------------------"
-	echo "1. 现在更新            2. 开启自动更新            3. 关闭自动更新"
+	echo "1. 現在更新 2. 開啟自動更新 3. 關閉自動更新"
 	echo "------------------------"
-	echo "0. 返回主菜单"
+	echo "0. 返回主選單"
 	echo "------------------------"
-	read -e -p "请输入你的选择: " choice
+	read -e -p "請輸入你的選擇:" choice
 	case "$choice" in
 		1)
 			clear
@@ -16955,8 +16955,8 @@ while true; do
 			CheckFirstRun_true
 			yinsiyuanquan2
 			cp -f ~/kejilion.sh /usr/local/bin/k > /dev/null 2>&1
-			echo -e "${gl_lv}腳本已更新到最新版本！${gl_huang}v$sh_v_new${gl_bai}"
-			send_stats "脚本已经最新$sh_v_new"
+			echo -e "${gl_lv}腳本已更新至最新版本！${gl_huang}v$sh_v_new${gl_bai}"
+			send_stats "腳本已經最新$sh_v_new"
 			break_end
 			~/kejilion.sh
 			exit
@@ -16976,15 +16976,15 @@ while true; do
 			(crontab -l | grep -v "kejilion.sh") | crontab -
 			# (crontab -l 2>/dev/null; echo "0 2 * * * bash -c \"$SH_Update_task\"") | crontab -
 			(crontab -l 2>/dev/null; echo "$(shuf -i 0-59 -n 1) 2 * * * bash -c \"$SH_Update_task\"") | crontab -
-			echo -e "${gl_lv}自动更新已开启，每天凌晨2点脚本会自动更新！${gl_bai}"
+			echo -e "${gl_lv}自動更新已開啟，每天凌晨2點腳本會自動更新！${gl_bai}"
 			send_stats "開啟腳本自動更新"
 			break_end
 			;;
 		3)
 			clear
 			(crontab -l | grep -v "kejilion.sh") | crontab -
-			echo -e "${gl_lv}自动更新已关闭${gl_bai}"
-			send_stats "关闭脚本自动更新"
+			echo -e "${gl_lv}自動更新已關閉${gl_bai}"
+			send_stats "關閉腳本自動更新"
 			break_end
 			;;
 		*)
@@ -17006,36 +17006,36 @@ echo -e "${gl_kjlan}"
 echo "╦╔═╔═╗ ╦╦╦  ╦╔═╗╔╗╔ ╔═╗╦ ╦"
 echo "╠╩╗║╣  ║║║  ║║ ║║║║ ╚═╗╠═╣"
 echo "╩ ╩╚═╝╚╝╩╩═╝╩╚═╝╝╚╝o╚═╝╩ ╩"
-echo -e "科技lion脚本工具箱 v$sh_v"
-echo -e "命令行输入${gl_huang}k${gl_kjlan}可快速启动脚本${gl_bai}"
+echo -e "科技lion腳本工具箱 v$sh_v"
+echo -e "命令列輸入${gl_huang}k${gl_kjlan}可快速啟動腳本${gl_bai}"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}1.   ${gl_bai}系统信息查询"
-echo -e "${gl_kjlan}2.   ${gl_bai}系统更新"
-echo -e "${gl_kjlan}3.   ${gl_bai}系统清理"
-echo -e "${gl_kjlan}4.   ${gl_bai}基础工具"
+echo -e "${gl_kjlan}1.   ${gl_bai}系統資訊查詢"
+echo -e "${gl_kjlan}2.   ${gl_bai}系統更新"
+echo -e "${gl_kjlan}3.   ${gl_bai}系統清理"
+echo -e "${gl_kjlan}4.   ${gl_bai}基礎工具"
 echo -e "${gl_kjlan}5.   ${gl_bai}BBR管理"
 echo -e "${gl_kjlan}6.   ${gl_bai}Docker管理"
 echo -e "${gl_kjlan}7.   ${gl_bai}WARP管理"
-echo -e "${gl_kjlan}8.   ${gl_bai}测试脚本合集"
-echo -e "${gl_kjlan}9.   ${gl_bai}甲骨文云脚本合集"
+echo -e "${gl_kjlan}8.   ${gl_bai}測試腳本合集"
+echo -e "${gl_kjlan}9.   ${gl_bai}甲骨文雲腳本合集"
 echo -e "${gl_huang}10.  ${gl_bai}LDNMP建站"
-echo -e "${gl_kjlan}11.  ${gl_bai}应用市场"
-echo -e "${gl_kjlan}12.  ${gl_bai}后台工作区"
-echo -e "${gl_kjlan}13.  ${gl_bai}系统工具"
-echo -e "${gl_kjlan}14.  ${gl_bai}服务器集群控制"
-echo -e "${gl_kjlan}15.  ${gl_bai}广告专栏"
-echo -e "${gl_kjlan}16.  ${gl_bai}游戏开服脚本合集"
+echo -e "${gl_kjlan}11.  ${gl_bai}應用市場"
+echo -e "${gl_kjlan}12.  ${gl_bai}後台工作區"
+echo -e "${gl_kjlan}13.  ${gl_bai}系統工具"
+echo -e "${gl_kjlan}14.  ${gl_bai}伺服器叢集控制"
+echo -e "${gl_kjlan}15.  ${gl_bai}廣告專欄"
+echo -e "${gl_kjlan}16.  ${gl_bai}遊戲開服腳本合集"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}00.  ${gl_bai}脚本更新"
+echo -e "${gl_kjlan}00.  ${gl_bai}腳本更新"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}0.   ${gl_bai}退出脚本"
+echo -e "${gl_kjlan}0.   ${gl_bai}退出腳本"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
-read -e -p "请输入你的选择: " choice
+read -e -p "請輸入你的選擇:" choice
 
 case $choice in
   1) linux_info ;;
-  2) clear ; send_stats "系统更新" ; linux_update ;;
-  3) clear ; send_stats "系统清理" ; linux_clean ;;
+  2) clear ; send_stats "系統更新" ; linux_update ;;
+  3) clear ; send_stats "系統清理" ; linux_clean ;;
   4) linux_tools ;;
   5) linux_bbr ;;
   6) linux_docker ;;
@@ -17053,7 +17053,7 @@ case $choice in
   16) games_server_tools ;;
   00) kejilion_update ;;
   0) clear ; exit ;;
-  *) echo "无效的输入!" ;;
+  *) echo "無效的輸入!" ;;
 esac
 	break_end
 done
@@ -17061,76 +17061,76 @@ done
 
 
 k_info() {
-send_stats "k命令参考用例"
+send_stats "k指令參考用例"
 echo "-------------------"
-echo "视频介绍: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
-echo "以下是k命令参考用例："
-echo "启动脚本            k"
-echo "安装软件包          k install nano wget | k add nano wget | k 安装 nano wget"
-echo "卸载软件包          k remove nano wget | k del nano wget | k uninstall nano wget | k 卸载 nano wget"
-echo "更新系统            k update | k 更新"
-echo "清理系统垃圾        k clean | k 清理"
-echo "重装系统面板        k dd | k 重装"
-echo "bbr3控制面板        k bbr3 | k bbrv3"
-echo "内核调优面板        k nhyh | k 内核优化"
-echo "设置虚拟内存        k swap 2048"
-echo "设置虚拟时区        k time Asia/Shanghai | k 时区 Asia/Shanghai"
-echo "系统回收站          k trash | k hsz | k 回收站"
-echo "系统备份功能        k backup | k bf | k 备份"
-echo "ssh远程连接工具     k ssh | k 远程连接"
-echo "rsync远程同步工具   k rsync | k 远程同步"
-echo "硬盘管理工具        k disk | k 硬盘管理"
-echo "内网穿透（服务端）  k frps"
-echo "内网穿透（客户端）  k frpc"
-echo "软件启动            k start sshd | k 启动 sshd "
-echo "软件停止            k stop sshd | k 停止 sshd "
-echo "软件重启            k restart sshd | k 重启 sshd "
-echo "软件状态查看        k status sshd | k 状态 sshd "
-echo "软件开机启动        k enable docker | k autostart docke | k 开机启动 docker "
-echo "域名证书申请        k ssl"
-echo "域名证书到期查询    k ssl ps"
-echo "docker管理平面      k docker"
-echo "docker环境安装      k docker install |k docker 安装"
-echo "docker容器管理      k docker ps |k docker 容器"
-echo "docker镜像管理      k docker img |k docker 镜像"
-echo "LDNMP站点管理       k web"
-echo "LDNMP缓存清理       k web cache"
-echo "安装WordPress       k wp |k wordpress |k wp xxx.com"
-echo "安装反向代理        k fd |k rp |k 反代 |k fd xxx.com"
-echo "安装负载均衡        k loadbalance |k 负载均衡"
-echo "安装L4负载均衡      k stream |k L4负载均衡"
-echo "防火墙面板          k fhq |k 防火墙"
-echo "开放端口            k dkdk 8080 |k 打开端口 8080"
-echo "关闭端口            k gbdk 7800 |k 关闭端口 7800"
-echo "放行IP              k fxip 127.0.0.0/8 |k 放行IP 127.0.0.0/8"
-echo "阻止IP              k zzip 177.5.25.36 |k 阻止IP 177.5.25.36"
-echo "命令收藏夹          k fav | k 命令收藏夹"
-echo "应用市场管理        k app"
-echo "应用编号快捷管理    k app 26 | k app 1panel | k app npm"
-echo "fail2ban管理        k fail2ban | k f2b"
-echo "显示系统信息        k info"
-echo "ROOT密钥管理        k sshkey"
-echo "SSH公钥导入(URL)    k sshkey <url>"
-echo "SSH公钥导入(GitHub) k sshkey github <user> "
+echo "影片介紹: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
+echo "以下是k命令參考用例："
+echo "啟動腳本 k"
+echo "安裝軟體包 k install nano wget | k add nano wget | k 安裝 nano wget"
+echo "卸載軟體包 k remove nano wget | k del nano wget | k uninstall nano wget | k 卸載 nano wget"
+echo "更新系統 k update | k 更新"
+echo "清理系統垃圾 k clean | k 清理"
+echo "重裝系統面板 k dd | k 重裝"
+echo "bbr3控制面板 k bbr3 | k bbrv3"
+echo "核心調優面板 k nhyh | k 核心最佳化"
+echo "設定虛擬記憶體 k swap 2048"
+echo "設定虛擬時區 k time Asia/Shanghai | k 時區 Asia/Shanghai"
+echo "系統回收站 k trash | k hsz | k 回收站"
+echo "系統備份功能 k backup | k bf | k 備份"
+echo "ssh遠端連線工具 k ssh | k 遠端連線"
+echo "rsync遠端同步工具 k rsync | k 遠端同步"
+echo "硬碟管理工具 k disk | k 硬碟管理"
+echo "內網穿透（服務端） k frps"
+echo "內網穿透（客戶端） k frpc"
+echo "軟體啟動 k start sshd | k 啟動 sshd"
+echo "軟體停止 k stop sshd | k 停止 sshd"
+echo "軟體重啟 k restart sshd | k 重啟 sshd"
+echo "軟體狀態檢視 k status sshd | k 狀態 sshd"
+echo "軟體開機啟動 k enable docker | k autostart docke | k 開機啟動 docker"
+echo "網域憑證申請 k ssl"
+echo "網域名稱憑證到期查詢 k ssl ps"
+echo "docker管理平面 k docker"
+echo "docker環境安裝 k docker install |k docker 安裝"
+echo "docker容器管理 k docker ps |k docker 容器"
+echo "docker映像管理 k docker img |k docker 映像"
+echo "LDNMP站台管理 k web"
+echo "LDNMP快取清理 k web cache"
+echo "安裝WordPress k wp |k wordpress |k wp xxx.com"
+echo "安裝反向代理 k fd |k rp |k 反代 |k fd xxx.com"
+echo "安裝負載平衡 k loadbalance |k 負載平衡"
+echo "安裝L4負載平衡 k stream |k L4負載平衡"
+echo "防火牆面板 k fhq |k 防火牆"
+echo "開放埠 k dkdk 8080 |k 開啟連接埠 8080"
+echo "關閉連接埠 k gbdk 7800 |k 關閉連接埠 7800"
+echo "放行IP k fxip 127.0.0.0/8 |k 放行IP 127.0.0.0/8"
+echo "阻止IP k zzip 177.5.25.36 |k 阻止IP 177.5.25.36"
+echo "命令收藏 k fav | k 指令收藏夾"
+echo "應用市場管理 k app"
+echo "應用編號快捷管理 k app 26 | k app 1panel | k app npm"
+echo "fail2ban管理 k fail2ban | k f2b"
+echo "顯示系統資訊 k info"
+echo "ROOT金鑰管理 k sshkey"
+echo "SSH公鑰導入(URL) k sshkey <url>"
+echo "SSH公鑰導入(GitHub) k sshkey github <user>"
 
 }
 
 
 
 if [ "$#" -eq 0 ]; then
-	# 如果没有参数，运行交互式逻辑
+	# 如果沒有參數，運行互動式邏輯
 	kejilion_sh
 else
-	# 如果有参数，执行相应函数
+	# 如果有參數，執行對應函數
 	case $1 in
 		install|add|安装)
 			shift
-			send_stats "安装软件"
+			send_stats "安裝軟體"
 			install "$@"
 			;;
 		remove|del|uninstall|卸载)
 			shift
-			send_stats "卸载软件"
+			send_stats "解除安裝軟體"
 			remove "$@"
 			;;
 		update|更新)
@@ -17164,7 +17164,7 @@ else
 
 		rsync_run)
 			shift
-			send_stats "定时rsync同步"
+			send_stats "定時rsync同步"
 			run_task "$@"
 			;;
 
@@ -17183,7 +17183,7 @@ else
 	  		find_container_by_host_port "$port"
 	  		if [ -z "$docker_name" ]; then
 	  		  close_port "$port"
-			  echo "已阻止IP+端口访问该服务"
+			  echo "已阻止IP+連接埠存取該服務"
 	  		else
 			  ip_address
 			  close_port "$port"
@@ -17202,13 +17202,13 @@ else
 
 		swap)
 			shift
-			send_stats "快速设置虚拟内存"
+			send_stats "快速設定虛擬記憶體"
 			add_swap "$@"
 			;;
 
 		time|时区)
 			shift
-			send_stats "快速设置时区"
+			send_stats "快速設定時區"
 			set_timedate "$@"
 			;;
 
@@ -17256,42 +17256,42 @@ else
 
 		status|状态)
 			shift
-			send_stats "软件状态查看"
+			send_stats "軟體狀態檢視"
 			status "$@"
 			;;
 		start|启动)
 			shift
-			send_stats "软件启动"
+			send_stats "軟體啟動"
 			start "$@"
 			;;
 		stop|停止)
 			shift
-			send_stats "软件暂停"
+			send_stats "軟體暫停"
 			stop "$@"
 			;;
 		restart|重启)
 			shift
-			send_stats "软件重启"
+			send_stats "軟體重啟"
 			restart "$@"
 			;;
 
 		enable|autostart|开机启动)
 			shift
-			send_stats "软件开机自启"
+			send_stats "軟體開機自啟"
 			enable "$@"
 			;;
 
 		ssl)
 			shift
 			if [ "$1" = "ps" ]; then
-				send_stats "查看证书状态"
+				send_stats "查看證書狀態"
 				ssl_ps
 			elif [ -z "$1" ]; then
 				add_ssl
-				send_stats "快速申请证书"
+				send_stats "快速申請證書"
 			elif [ -n "$1" ]; then
 				add_ssl "$1"
-				send_stats "快速申请证书"
+				send_stats "快速申請證書"
 			else
 				k_info
 			fi
@@ -17301,15 +17301,15 @@ else
 			shift
 			case $1 in
 				install|安装)
-					send_stats "快捷安装docker"
+					send_stats "快速安裝docker"
 					install_docker
 					;;
 				ps|容器)
-					send_stats "快捷容器管理"
+					send_stats "快速容器管理"
 					docker_ps
 					;;
 				img|镜像)
-					send_stats "快捷镜像管理"
+					send_stats "快速鏡像管理"
 					docker_image
 					;;
 				*)
@@ -17336,7 +17336,7 @@ else
 
 		app)
 			shift
-			send_stats "应用$@"
+			send_stats "應用$@"
 			linux_panel "$@"
 			;;
 
@@ -17355,30 +17355,30 @@ else
 			shift
 			case "$1" in
 				"" )
-					# sshkey → 交互菜单
-					send_stats "SSHKey 交互菜单"
+					# sshkey → 互動選單
+					send_stats "SSHKey 互動選單"
 					sshkey_panel
 					;;
 				github )
 					shift
-					send_stats "从 GitHub 导入 SSH 公钥"
+					send_stats "從 GitHub 導入 SSH 公鑰"
 					fetch_github_ssh_keys "$1"
 					;;
 				http://*|https://* )
-					send_stats "从 URL 导入 SSH 公钥"
+					send_stats "從 URL 匯入 SSH 公鑰"
 					fetch_remote_ssh_keys "$1"
 					;;
 				ssh-rsa*|ssh-ed25519*|ssh-ecdsa* )
-					send_stats "公钥直接导入"
+					send_stats "公鑰直接導入"
 					import_sshkey "$1"
 					;;
 				* )
-					echo "错误：未知参数 '$1'"
+					echo "錯誤：未知參數 '$1'"
 					echo "用法："
-					echo "  k sshkey                  进入交互菜单"
-					echo "  k sshkey \"<pubkey>\"     直接导入 SSH 公钥"
-					echo "  k sshkey <url>            从 URL 导入 SSH 公钥"
-					echo "  k sshkey github <user>    从 GitHub 导入 SSH 公钥"
+					echo "k sshkey 進入互動選單"
+					echo "k sshkey \"<pubkey>\" 直接導入 SSH 公鑰"
+					echo "k sshkey <url> 從 URL 匯入 SSH 公鑰"
+					echo "k sshkey github <user> 從 GitHub 匯入 SSH 公鑰"
 					;;
 			esac
 

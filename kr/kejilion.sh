@@ -850,7 +850,7 @@ open_port() {
 	install iptables
 
 	for port in "${ports[@]}"; do
-		# 기존 종료 규칙 삭제
+		# 删除已存在的关闭规则
 		iptables -D INPUT -p tcp --dport $port -j DROP 2>/dev/null
 		iptables -D INPUT -p udp --dport $port -j DROP 2>/dev/null
 
@@ -911,7 +911,7 @@ close_port() {
 allow_ip() {
 	local ips=($@)  # 将传入的参数转换为数组
 	if [ ${#ips[@]} -eq 0 ]; then
-		echo "IP 주소 또는 IP 세그먼트를 하나 이상 입력하세요."
+		echo "请提供至少一个IP地址或IP段"
 		return 1
 	fi
 
@@ -921,7 +921,7 @@ allow_ip() {
 		# 删除已存在的阻止规则
 		iptables -D INPUT -s $ip -j DROP 2>/dev/null
 
-		# 허용 규칙 추가
+		# 添加允许规则
 		if ! iptables -C INPUT -s $ip -j ACCEPT 2>/dev/null; then
 			iptables -I INPUT 1 -s $ip -j ACCEPT
 			echo "已放行IP $ip"
@@ -942,7 +942,7 @@ block_ip() {
 	install iptables
 
 	for ip in "${ips[@]}"; do
-		# 기존 허용 규칙 삭제
+		# 删除已存在的允许规则
 		iptables -D INPUT -s $ip -j ACCEPT 2>/dev/null
 
 		# 添加阻止规则
@@ -953,7 +953,7 @@ block_ip() {
 	done
 
 	save_iptables_rules
-	send_stats "IP가 차단됨"
+	send_stats "已阻止IP"
 }
 
 
@@ -2042,7 +2042,7 @@ nginx_zstd() {
 
 
 	elif [ "$mode" == "off" ]; then
-		# Zstd 닫기: 설명 추가
+		# 关闭 Zstd：加上注释
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_zstd_filter_module.so;|# load_module /etc/nginx/modules/ngx_http_zstd_filter_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_zstd_static_module.so;|# load_module /etc/nginx/modules/ngx_http_zstd_static_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 
@@ -2125,7 +2125,7 @@ web_security() {
 			  echo "------------------------"
 			  echo "9. 卸载防御程序"
 			  echo "------------------------"
-			  echo "0. 이전 메뉴로 돌아가기"
+			  echo "0. 返回上一级选单"
 			  echo "------------------------"
 			  read -e -p "请输入你的选择: " sub_choice
 			  case $sub_choice in
@@ -2208,7 +2208,7 @@ web_security() {
 					  ;;
 
 				  21)
-					  send_stats "클라우드플레어 모드"
+					  send_stats "cloudflare模式"
 					  echo "到cf后台右上角我的个人资料，选择左侧API令牌，获取Global API Key"
 					  echo "https://dash.cloudflare.com/login"
 					  read -e -p "输入CF的账号: " cfuser
@@ -4452,7 +4452,7 @@ frpc_panel() {
 		echo "------------------------"
 		echo "4. 添加对外服务       5. 删除对外服务       6. 手动配置服务"
 		echo "------------------------"
-		echo "0. 이전 메뉴로 돌아가기"
+		echo "0. 返回上一级选单"
 		echo "------------------------"
 		read -e -p "输入你的选择: " choice
 		case $choice in
@@ -4544,7 +4544,7 @@ yt_menu_pro() {
 		echo "-------------------------"
 		echo "0. 返回上一级选单"
 		echo "-------------------------"
-		read -e -p "옵션 번호를 입력하세요:" choice
+		read -e -p "请输入选项编号: " choice
 
 		case $choice in
 			1)
@@ -4584,7 +4584,7 @@ yt_menu_pro() {
 					--no-overwrites --no-post-overwrites "$url"
 				read -e -p "下载完成，按任意键继续..." ;;
 			6)
-				send_stats "일괄 비디오 다운로드"
+				send_stats "批量视频下载"
 				install nano
 				if [ ! -f "$URL_FILE" ]; then
 				  echo -e "# 输入多个视频链接地址\n# https://www.bilibili.com/bangumi/play/ep733316?spm_id_from=333.337.0.0&from_spmid=666.25.episode.0" > "$URL_FILE"
@@ -4598,9 +4598,9 @@ yt_menu_pro() {
 					-a "$URL_FILE" \
 					-o "$VIDEO_DIR/%(title)s/%(title)s.%(ext)s" \
 					--no-overwrites --no-post-overwrites
-				read -e -p "일괄 다운로드가 완료되었습니다. 계속하려면 아무 키나 누르세요..." ;;
+				read -e -p "批量下载完成，按任意键继续..." ;;
 			7)
-				send_stats "맞춤형 비디오 다운로드"
+				send_stats "自定义视频下载"
 				read -e -p "请输入完整 yt-dlp 参数（不含 yt-dlp）: " custom
 				yt-dlp -P "$VIDEO_DIR" $custom \
 					--write-subs --sub-langs all \
@@ -4658,7 +4658,7 @@ set_timedate() {
 
 
 
-# dpkg 중단 문제 수정
+# 修复dpkg中断问题
 fix_dpkg() {
 	pkill -9 -f 'apt|dpkg'
 	rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock
@@ -4667,7 +4667,7 @@ fix_dpkg() {
 
 
 linux_update() {
-	echo -e "${gl_kjlan}시스템 업데이트 진행 중...${gl_bai}"
+	echo -e "${gl_kjlan}正在系统更新...${gl_bai}"
 	if command -v dnf &>/dev/null; then
 		dnf -y update
 	elif command -v yum &>/dev/null; then
@@ -4749,17 +4749,17 @@ linux_clean() {
 	elif command -v opkg &>/dev/null; then
 		echo "删除系统日志..."
 		rm -rf /var/log/*
-		echo "임시 파일 삭제..."
+		echo "删除临时文件..."
 		rm -rf /tmp/*
 
 	elif command -v pkg &>/dev/null; then
-		echo "사용하지 않는 종속성을 정리합니다..."
+		echo "清理未使用的依赖..."
 		pkg autoremove -y
 		echo "清理包管理器缓存..."
 		pkg clean -y
-		echo "시스템 로그 삭제..."
+		echo "删除系统日志..."
 		rm -rf /var/log/*
-		echo "임시 파일 삭제..."
+		echo "删除临时文件..."
 		rm -rf /tmp/*
 
 	else
@@ -4817,19 +4817,19 @@ chattr +i /etc/resolv.conf
 
 set_dns_ui() {
 root_use
-send_stats "DNS 최적화"
+send_stats "优化DNS"
 while true; do
 	clear
 	echo "优化DNS地址"
 	echo "------------------------"
-	echo "현재 DNS 주소"
+	echo "当前DNS地址"
 	cat /etc/resolv.conf
 	echo "------------------------"
 	echo ""
 	echo "1. 国外DNS优化: "
 	echo " v4: 1.1.1.1 8.8.8.8"
 	echo " v6: 2606:4700:4700::1111 2001:4860:4860::8888"
-	echo "2. 국내 DNS 최적화:"
+	echo "2. 国内DNS优化: "
 	echo " v4: 223.5.5.5 183.60.83.19"
 	echo " v6: 2400:3200::1 2400:da00::6666"
 	echo "3. 手动编辑DNS配置"
@@ -4844,7 +4844,7 @@ while true; do
 		local dns1_ipv6="2606:4700:4700::1111"
 		local dns2_ipv6="2001:4860:4860::8888"
 		set_dns
-		send_stats "외국 DNS 최적화"
+		send_stats "国外DNS优化"
 		;;
 	  2)
 		local dns1_ipv4="223.5.5.5"
@@ -4859,7 +4859,7 @@ while true; do
 		chattr -i /etc/resolv.conf
 		nano /etc/resolv.conf
 		chattr +i /etc/resolv.conf
-		send_stats "DNS 구성을 수동으로 편집"
+		send_stats "手动编辑DNS配置"
 		;;
 	  *)
 		break
@@ -4929,7 +4929,7 @@ sshkey_on() {
 		   -e 's/^\s*#\?\s*ChallengeResponseAuthentication .*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
 	rm -rf /etc/ssh/sshd_config.d/* /etc/ssh/ssh_config.d/*
 	restart_ssh
-	echo -e "${gl_lv}사용자 키 로그인 모드는 켜지고 비밀번호 로그인 모드는 꺼집니다. 다시 연결이 적용됩니다.${gl_bai}"
+	echo -e "${gl_lv}用户密钥登录模式已开启，已关闭密码登录模式，重连将会生效${gl_bai}"
 
 }
 
@@ -4947,7 +4947,7 @@ add_sshkey() {
 	chmod 600 "${HOME}/.ssh/authorized_keys"
 
 	ip_address
-	echo -e "개인키 정보가 생성되었습니다. 꼭 복사해서 저장하세요. 다음과 같이 저장될 수 있습니다.${gl_huang}${ipv4_address}_ssh.key${gl_bai} 文件，用于以后的SSH登录"
+	echo -e "私钥信息已生成，务必复制保存，可保存成 ${gl_huang}${ipv4_address}_ssh.key${gl_bai} 文件，用于以后的SSH登录"
 
 	echo "--------------------------------"
 	cat "${HOME}/.ssh/sshkey"
@@ -4968,7 +4968,7 @@ import_sshkey() {
 	local auth_keys="${ssh_dir}/authorized_keys"
 
 	if [[ -z "$public_key" ]]; then
-		read -e -p "SSH 공개 키(일반적으로 'ssh-rsa' 또는 'ssh-ed25519'로 시작)의 내용을 입력하세요." public_key
+		read -e -p "请输入您的SSH公钥内容（通常以 'ssh-rsa' 或 'ssh-ed25519' 开头）: " public_key
 	fi
 
 	if [[ -z "$public_key" ]]; then
@@ -5039,7 +5039,7 @@ fetch_remote_ssh_keys() {
 
 	# 检查内容是否有效
 	if [[ ! -s "${temp_file}" ]]; then
-		echo "오류: 다운로드한 파일이 비어 있으며 URL에 공개 키가 포함되어 있지 않을 수 있습니다." >&2
+		echo "错误：下载到的文件为空，URL 可能不包含任何公钥" >&2
 		rm -f "${temp_file}"
 		return 1
 	fi
@@ -5133,7 +5133,7 @@ sshkey_panel() {
 	  echo "------------------------"
 	  echo "1. 生成新密钥对                  2. 手动输入已有公钥"
 	  echo "3. 从GitHub导入已有公钥          4. 从URL导入已有公钥"
-	  echo "5. 공개 키 파일 편집 6. 로컬 키 보기"
+	  echo "5. 编辑公钥文件                  6. 查看本机密钥"
 	  echo "------------------------"
 	  echo "0. 返回上一级选单"
 	  echo "------------------------"
@@ -5436,7 +5436,7 @@ dd_xitong() {
 				;;
 
 			  26)
-				send_stats "oracle9 재설치"
+				send_stats "重装oracle9"
 				dd_xitong_3
 				bash reinstall.sh oracle 9
 				reboot
@@ -5476,7 +5476,7 @@ dd_xitong() {
 				;;
 
 			  31)
-				send_stats "알파인 재설치"
+				send_stats "重装alpine"
 				dd_xitong_1
 				bash InstallNET.sh -alpine
 				reboot
@@ -6896,7 +6896,7 @@ ssh_manager() {
 		list_connections
 		echo "1. 创建新连接        2. 使用连接        3. 删除连接"
 		echo "------------------------"
-		echo "0. 이전 메뉴로 돌아가기"
+		echo "0. 返回上一级选单"
 		echo "------------------------"
 		read -e -p "请输入你的选择: " choice
 		case $choice in
@@ -6988,10 +6988,10 @@ mount_partition() {
 
 # 卸载分区
 unmount_partition() {
-	send_stats "파티션 마운트 해제"
+	send_stats "卸载分区"
 	read -e -p "请输入要卸载的分区名称（例如 sda1）: " PARTITION
 
-	# 파티션이 마운트되었는지 확인
+	# 检查分区是否已经挂载
 	MOUNT_POINT=$(lsblk -o MOUNTPOINT | grep -w "$PARTITION")
 	if [ -z "$MOUNT_POINT" ]; then
 		echo "分区未挂载！"
@@ -7002,7 +7002,7 @@ unmount_partition() {
 	umount "/dev/$PARTITION"
 
 	if [ $? -eq 0 ]; then
-		echo "파티션이 성공적으로 제거되었습니다:$MOUNT_POINT"
+		echo "分区卸载成功: $MOUNT_POINT"
 		rmdir "$MOUNT_POINT"
 	else
 		echo "分区卸载失败！"
@@ -7022,13 +7022,13 @@ format_partition() {
 
 	# 检查分区是否存在
 	if ! lsblk -o NAME | grep -w "$PARTITION" > /dev/null; then
-		echo "파티션이 존재하지 않습니다!"
+		echo "分区不存在！"
 		return
 	fi
 
-	# 파티션이 마운트되었는지 확인
+	# 检查分区是否已经挂载
 	if lsblk -o MOUNTPOINT | grep -w "$PARTITION" > /dev/null; then
-		echo "파티션이 마운트되었습니다. 먼저 마운트를 해제하세요!"
+		echo "分区已经挂载，请先卸载！"
 		return
 	fi
 
@@ -7045,11 +7045,11 @@ format_partition() {
 		2) FS_TYPE="xfs" ;;
 		3) FS_TYPE="ntfs" ;;
 		4) FS_TYPE="vfat" ;;
-		*) echo "잘못된 선택입니다!"; return ;;
+		*) echo "无效的选择！"; return ;;
 	esac
 
 	# 确认格式化
-	read -e -p "确认格式化分区 /dev/$PARTITION~을 위한$FS_TYPE? (예/아니요):" CONFIRM
+	read -e -p "确认格式化分区 /dev/$PARTITION 为 $FS_TYPE 吗？(y/n): " CONFIRM
 	if [ "$CONFIRM" != "y" ]; then
 		echo "操作已取消。"
 		return
@@ -7078,7 +7078,7 @@ check_partition() {
 	fi
 
 	# 检查分区状态
-	echo "파티션 확인 /dev/$PARTITION상태:"
+	echo "检查分区 /dev/$PARTITION 的状态："
 	fsck "/dev/$PARTITION"
 }
 
@@ -7088,7 +7088,7 @@ disk_manager() {
 	while true; do
 		clear
 		echo "硬盘分区管理"
-		echo -e "${gl_huang}이 기능은 내부 테스트 중이므로 프로덕션 환경에서는 사용하면 안 됩니다.${gl_bai}"
+		echo -e "${gl_huang}该功能内部测试阶段，请勿在生产环境使用。${gl_bai}"
 		echo "------------------------"
 		list_partitions
 		echo "------------------------"
@@ -8096,7 +8096,7 @@ docker_ssh_migration() {
 
 				VOL_FILE="$BACKUP_DIR/${container}_$(basename $VOL_SRC).tar.gz"
 				if [[ -f "$VOL_FILE" ]]; then
-					echo "볼륨 데이터 복구:$VOL_SRC"
+					echo "恢复卷数据: $VOL_SRC"
 					tar -xzf "$VOL_FILE" -C /
 				fi
 			done
@@ -8107,7 +8107,7 @@ docker_ssh_migration() {
 				docker rm -f "$container"
 			fi
 
-			# 컨테이너 시작
+			# 启动容器
 			echo "执行还原命令: docker run -d --name \"$container\" $PORT_ARGS $VOL_ARGS $ENV_ARGS \"$IMAGE\""
 			eval "docker run -d --name \"$container\" $PORT_ARGS $VOL_ARGS $ENV_ARGS \"$IMAGE\""
 		done
@@ -8160,7 +8160,7 @@ docker_ssh_migration() {
 		read -e -p  "请输入要删除的备份目录: " BACKUP_DIR
 		[[ ! -d "$BACKUP_DIR" ]] && { echo -e "${gl_hong}备份目录不存在${gl_bai}"; return; }
 		rm -rf "$BACKUP_DIR"
-		echo -e "${gl_lv}삭제된 백업:${BACKUP_DIR}${gl_bai}"
+		echo -e "${gl_lv}已删除备份: ${BACKUP_DIR}${gl_bai}"
 	}
 
 	# ----------------------------
@@ -8177,7 +8177,7 @@ docker_ssh_migration() {
 			echo -e ""
 			echo "------------------------"
 			echo -e "1. 备份docker项目"
-			echo -e "2. 도커 프로젝트 마이그레이션"
+			echo -e "2. 迁移docker项目"
 			echo -e "3. 还原docker项目"
 			echo -e "4. 删除docker项目的备份文件"
 			echo "------------------------"
@@ -8217,7 +8217,7 @@ linux_docker() {
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}Docker容器管理 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}Docker镜像管理"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}도커 네트워크 관리"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}Docker网络管理"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}Docker卷管理"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}清理无用的docker容器和镜像网络数据卷"
@@ -8261,7 +8261,7 @@ linux_docker() {
 			  echo -e "Docker容器: ${gl_lv}$container_count${gl_bai}"
 			  docker ps -a
 			  echo ""
-			  echo -e "Docker 볼륨:${gl_lv}$volume_count${gl_bai}"
+			  echo -e "Docker卷: ${gl_lv}$volume_count${gl_bai}"
 			  docker volume ls
 			  echo ""
 			  echo -e "Docker网络: ${gl_lv}$network_count${gl_bai}"
@@ -8317,7 +8317,7 @@ linux_docker() {
 
 				  case $sub_choice in
 					  1)
-						  send_stats "네트워크 생성"
+						  send_stats "创建网络"
 						  read -e -p "设置新网络名: " dockernetwork
 						  docker network create $dockernetwork
 						  ;;

@@ -8700,7 +8700,7 @@ linux_Oracle() {
 
 				  install_docker
 
-				  # 设置默认值
+				  # デフォルト値を設定する
 				  local DEFAULT_CPU_CORE=1
 				  local DEFAULT_CPU_UTIL="10-20"
 				  local DEFAULT_MEM_UTIL=20
